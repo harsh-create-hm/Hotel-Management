@@ -1,0 +1,43 @@
+<div class="container">
+  <h1>{{ authService.isAdmin ? 'All Bookings' : 'My Bookings' }}</h1>
+
+  <div *ngIf="loading" class="loading">Loading bookings...</div>
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+  <div *ngIf="successMessage" class="alert-success">{{ successMessage }}</div>
+
+  <div *ngIf="!loading && bookings.length === 0" class="empty-state">
+    <p>No bookings found.</p>
+  </div>
+
+  <div class="booking-list" *ngIf="!loading">
+    <div class="booking-card" *ngFor="let booking of bookings">
+      <div class="booking-header">
+        <h3>{{ booking.hotelName }}</h3>
+        <span class="booking-status" [class]="'status-' + booking.status.toLowerCase()">
+          {{ booking.status }}
+        </span>
+      </div>
+      <div class="booking-details">
+        <p>🛏️ Room: {{ booking.roomType }}</p>
+        <p>📅 Check-in: {{ booking.checkIn | date:'mediumDate' }}</p>
+        <p>📅 Check-out: {{ booking.checkOut | date:'mediumDate' }}</p>
+        <p>💰 Total: ${{ booking.totalAmount | number:'1.2-2' }}</p>
+        <p *ngIf="authService.isAdmin">👤 Guest: {{ booking.userName }}</p>
+      </div>
+      <div class="booking-actions">
+        <button
+          *ngIf="booking.status === 'CREATED'"
+          class="btn-primary"
+          (click)="payBooking(booking.id)">
+          Pay Now
+        </button>
+        <button
+          *ngIf="booking.status !== 'CANCELLED'"
+          class="btn-danger"
+          (click)="cancelBooking(booking.id)">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

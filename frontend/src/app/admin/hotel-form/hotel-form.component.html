@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>{{ isEdit ? 'Edit Hotel' : 'Add New Hotel' }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
+    <div class="form-group">
+      <label for="name">Hotel Name *</label>
+      <input id="name" type="text" formControlName="name" placeholder="Enter hotel name" />
+      <span class="error" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+        Hotel name is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location *</label>
+      <input id="location" type="text" formControlName="location" placeholder="City, Country" />
+      <span class="error" *ngIf="form.get('location')?.invalid && form.get('location')?.touched">
+        Location is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="4"
+                placeholder="Describe the hotel..."></textarea>
+    </div>
+
+    <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid || loading" class="btn-primary">
+        {{ loading ? 'Saving...' : (isEdit ? 'Update Hotel' : 'Create Hotel') }}
+      </button>
+      <button type="button" class="btn-secondary" routerLink="/hotels">Cancel</button>
+    </div>
+  </form>
+</div>

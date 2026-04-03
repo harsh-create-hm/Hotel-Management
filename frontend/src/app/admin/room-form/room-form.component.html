@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>{{ isEdit ? 'Edit Room' : 'Add New Room' }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
+    <div class="form-group">
+      <label for="type">Room Type *</label>
+      <select id="type" formControlName="type">
+        <option *ngFor="let t of roomTypes" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price Per Night ($) *</label>
+      <input id="price" type="number" formControlName="pricePerNight" placeholder="e.g. 99.99" min="1" />
+      <span class="error" *ngIf="form.get('pricePerNight')?.invalid && form.get('pricePerNight')?.touched">
+        Valid price is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="count">Available Count *</label>
+      <input id="count" type="number" formControlName="availableCount" placeholder="e.g. 10" min="0" />
+      <span class="error" *ngIf="form.get('availableCount')?.invalid && form.get('availableCount')?.touched">
+        Available count is required
+      </span>
+    </div>
+
+    <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid || loading" class="btn-primary">
+        {{ loading ? 'Saving...' : (isEdit ? 'Update Room' : 'Add Room') }}
+      </button>
+        <button type="button" class="btn-secondary" [routerLink]="hotelId ? ['/hotels', hotelId] : ['/hotels']">Cancel</button>
+    </div>
+  </form>
+</div>

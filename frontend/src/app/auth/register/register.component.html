@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+    <p>Join us to book amazing hotels worldwide.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" formControlName="name" placeholder="Enter your name" />
+        <span class="error" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+          Name is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="Enter email" />
+        <span class="error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          Valid email is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="Min 6 characters" />
+        <span class="error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+          Password must be at least 6 characters
+        </span>
+      </div>
+
+      <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+      <button type="submit" [disabled]="form.invalid || loading" class="btn-primary">
+        {{ loading ? 'Creating...' : 'Create Account' }}
+      </button>
+    </form>
+
+    <p class="auth-link">Already have an account? <a routerLink="/auth/login">Sign In</a></p>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="page-header">
+    <h1>🏨 Find Your Perfect Hotel</h1>
+    <p>Search from our curated collection of hotels worldwide</p>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchLocation"
+      placeholder="Search by city or location..."
+      (keyup.enter)="search()"
+    />
+    <button class="btn-primary" (click)="search()">Search</button>
+    <a *ngIf="authService.isAdmin" routerLink="/admin/hotels/new" class="btn-secondary">+ Add Hotel</a>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">Loading hotels...</div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+  <!-- Hotel Grid -->
+  <div class="hotel-grid" *ngIf="!loading">
+    <div *ngIf="hotels.length === 0" class="empty-state">
+      <p>No hotels found. Try a different location.</p>
+    </div>
+
+    <div class="hotel-card" *ngFor="let hotel of hotels" (click)="viewHotel(hotel.id)">
+      <div class="hotel-card-body">
+        <h3>{{ hotel.name }}</h3>
+        <p class="hotel-location">📍 {{ hotel.location }}</p>
+        <p class="hotel-desc">{{ hotel.description || 'A wonderful place to stay.' }}</p>
+        <div class="hotel-rating" *ngIf="hotel.averageRating">
+          ⭐ {{ hotel.averageRating | number:'1.1-1' }} / 5
+        </div>
+      </div>
+      <div class="hotel-card-footer">
+        <button class="btn-primary">View Details</button>
+      </div>
+    </div>
+  </div>
+</div>

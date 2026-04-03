@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>Book a Room</h1>
+
+  <div *ngIf="room" class="booking-summary">
+    <h3>{{ room.hotelName }}</h3>
+    <p>Room Type: <strong>{{ room.type }}</strong></p>
+    <p>Price: <strong>${{ room.pricePerNight }} / night</strong></p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="booking-form">
+    <div class="form-group">
+      <label for="checkIn">Check-In Date</label>
+      <input id="checkIn" type="date" formControlName="checkIn" [min]="today" />
+      <span class="error" *ngIf="form.get('checkIn')?.invalid && form.get('checkIn')?.touched">
+        Check-in date is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="checkOut">Check-Out Date</label>
+      <input id="checkOut" type="date" formControlName="checkOut" [min]="today" />
+      <span class="error" *ngIf="form.get('checkOut')?.invalid && form.get('checkOut')?.touched">
+        Check-out date is required
+      </span>
+    </div>
+
+    <div class="total-amount" *ngIf="totalAmount > 0">
+      <strong>Total: ${{ totalAmount | number:'1.2-2' }}</strong>
+    </div>
+
+    <div class="alert-success" *ngIf="success">{{ success }}</div>
+    <div class="alert-error" *ngIf="error">{{ error }}</div>
+
+    <button type="submit" [disabled]="form.invalid || loading" class="btn-primary">
+      {{ loading ? 'Booking...' : 'Confirm Booking' }}
+    </button>
+  </form>
+</div>

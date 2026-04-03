@@ -1,0 +1,21 @@
+# Backend build artifacts
+backend/target/
+backend/*.log
+
+# Frontend dependencies and build
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
